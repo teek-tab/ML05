@@ -1,0 +1,35 @@
+{
+  "1": "go'o",
+  "2": "ɗiɗi",
+  "3": "tati",
+  "4": "nayi",
+  "5": "jowi",
+  "6": "jee'go'o",
+  "7": "jee'ɗiɗi",
+  "8": "jee'tati",
+  "9": "jee'nayi",
+
+  "10": "sappo",
+  "10_modified": "sappoy",
+
+  "20": "noogay",
+  "30": "cappanɗe-tati",
+  "40": "cappanɗe-nayi",
+  "50": "cappanɗe-jowi",
+  "60": "cappanɗe-jee'go'o",
+  "70": "cappanɗe-jee'ɗiɗi",
+  "80": "cappanɗe-jee'tati",
+  "90": "cappanɗe-jee'nayi",
+
+  "100": "teemedere",
+  "100_plural": "teemeɗɗe",
+
+  "1000": "ujunere",
+  "1000_plural": "ujune",
+
+  "1000000": "dubuure",
+  "1000000_plural": "dubuuje",
+
+  "1000000000": "dabbuure",
+  "1000000000_plural": "dabbuuje"
+}
