@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ML05 API - Documentation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #0f4c75;
+            --highlight: #3282b8;
+            --success: #00d9ff;
+            --warning: #ffa500;
+            --danger: #ff4757;
+            --bg: #0a0a14;
+            --card-bg: #1e1e2e;
+            --text: #e4e4e7;
+            --text-muted: #a1a1aa;
+            --border: #2a2a3e;
+            --code-bg: #16161e;
+        }
+
+        body {
+            font-family: 'IBM Plex Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom: 3px solid var(--accent);
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--success);
+            text-shadow: 0 0 30px rgba(0, 217, 255, 0.3);
+        }
+
+        .version {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .endpoint-badge {
+            display: inline-block;
+            background: var(--success);
+            color: var(--bg);
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-family: 'Fira Code', monospace;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+
+        nav {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            border: 1px solid var(--border);
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        nav a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 8px 16px;
+            border-radius: 6px;
+        }
+
+        nav a:hover {
+            color: var(--success);
+            background: var(--secondary);
+        }
+
+        section {
+            background: var(--card-bg);
+            padding: 40px;
+            margin-bottom: 40px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: var(--success);
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            color: var(--highlight);
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            color: var(--text);
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .method {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-right: 10px;
+        }
+
+        .method.post {
+            background: var(--success);
+            color: var(--bg);
+        }
+
+        .method.get {
+            background: var(--highlight);
+            color: white;
+        }
+
+        pre {
+            background: var(--code-bg);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 15px 0;
+            border: 1px solid var(--border);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            background: var(--code-bg);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--success);
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+        }
+
+        .info-box {
+            background: rgba(50, 130, 184, 0.1);
+            border-left: 4px solid var(--highlight);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 6px;
+        }
+
+        .warning-box {
+            background: rgba(255, 165, 0, 0.1);
+            border-left: 4px solid var(--warning);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 6px;
+        }
+
+        .success-box {
+            background: rgba(0, 217, 255, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 6px;
+        }
+
+        .danger-box {
+            background: rgba(255, 71, 87, 0.1);
+            border-left: 4px solid var(--danger);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 6px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: var(--code-bg);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--secondary);
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .example-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: -1px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            background: var(--secondary);
+            border: 1px solid var(--border);
+            border-bottom: none;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tab:hover {
+            background: var(--accent);
+        }
+
+        .tab.active {
+            background: var(--code-bg);
+            color: var(--success);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            margin-top: 60px;
+        }
+
+        .github-link {
+            color: var(--success);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .github-link:hover {
+            color: var(--highlight);
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: var(--highlight);
+        }
+
+        .code-block {
+            position: relative;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            section {
+                padding: 25px;
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .example-tabs {
+                flex-direction: column;
+            }
+
+            .tab {
+                border-radius: 8px;
+                border: 1px solid var(--border);
+            }
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--success);
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="version">v1.0.0</div>
+        <h1>ML05 API</h1>
+        <p class="subtitle">API REST de conversion de nombres en langue Pular (Peul)</p>
+        <div class="endpoint-badge"><span class="status-indicator"></span>https://ml05.onrender.com/api</div>
+    </header>
+
+    <div class="container">
+        <nav>
+            <ul>
+                <li><a href="#introduction">Introduction</a></li>
+                <li><a href="#endpoints">Endpoints</a></li>
+                <li><a href="#exemples">Exemples</a></li>
+                <li><a href="#integration">Intégration</a></li>
+                <li><a href="#limites">Limites</a></li>
+                <li><a href="#errors">Erreurs</a></li>
+            </ul>
+        </nav>
+
+        <!-- INTRODUCTION -->
+        <section id="introduction">
+            <h2>📖 Introduction</h2>
+            <p>ML05 est une API RESTful qui convertit des nombres (1 à 999 999 999 999) en leur écriture en langue Pular (Peul).</p>
+            
+            <h3>Caractéristiques principales</h3>
+            <ul style="margin-left: 20px; margin-top: 15px;">
+                <li>✅ Conversion de nombres individuels ou par plage</li>
+                <li>✅ Support des surcharges pour variantes dialectales</li>
+                <li>✅ API gratuite et accessible publiquement</li>
+                <li>✅ Format JSON standard</li>
+                <li>✅ CORS activé pour tous les domaines</li>
+            </ul>
+
+            <div class="success-box" style="margin-top: 25px;">
+                <strong>🎯 Utilisation</strong><br>
+                Aucune authentification requise. Envoyez simplement vos requêtes HTTP POST.
+            </div>
+        </section>
+
+        <!-- ENDPOINTS -->
+        <section id="endpoints">
+            <h2>🔌 Endpoints</h2>
+
+            <h3><span class="method post">POST</span> /api/convert</h3>
+            <p>Convertit un nombre unique en Pular.</p>
+
+            <h4>Request Body</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Paramètre</th>
+                        <th>Type</th>
+                        <th>Requis</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>number</code></td>
+                        <td>integer</td>
+                        <td>✅</td>
+                        <td>Nombre à convertir (1 à 999 999 999 999)</td>
+                    </tr>
+                    <tr>
+                        <td><code>overrides</code></td>
+                        <td>object</td>
+                        <td>❌</td>
+                        <td>Surcharges de mots de base (optionnel)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>Response</h4>
+<pre><code>{
+  "number": 17,
+  "texte": "sappo e jee'ɗiɗi",
+  "overridesApplied": []
+}</code></pre>
+
+            <hr style="border: none; border-top: 1px solid var(--border); margin: 40px 0;">
+
+            <h3><span class="method post">POST</span> /api/range</h3>
+            <p>Convertit une plage de nombres en Pular.</p>
+
+            <h4>Request Body</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Paramètre</th>
+                        <th>Type</th>
+                        <th>Requis</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>start</code></td>
+                        <td>integer</td>
+                        <td>✅</td>
+                        <td>Début de la plage (≥ 1)</td>
+                    </tr>
+                    <tr>
+                        <td><code>end</code></td>
+                        <td>integer</td>
+                        <td>✅</td>
+                        <td>Fin de la plage (≥ start)</td>
+                    </tr>
+                    <tr>
+                        <td><code>overrides</code></td>
+                        <td>object</td>
+                        <td>❌</td>
+                        <td>Surcharges de mots de base (optionnel)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>Response</h4>
+<pre><code>{
+  "range": {
+    "start": 1,
+    "end": 3,
+    "size": 3
+  },
+  "result": {
+    "1": "go'o",
+    "2": "ɗiɗi",
+    "3": "tati"
+  }
+}</code></pre>
+        </section>
+
+        <!-- EXEMPLES -->
+        <section id="exemples">
+            <h2>💡 Exemples de code</h2>
+
+            <div class="example-tabs">
+                <div class="tab active" onclick="showTab('javascript')">JavaScript</div>
+                <div class="tab" onclick="showTab('python')">Python</div>
+                <div class="tab" onclick="showTab('curl')">cURL</div>
+                <div class="tab" onclick="showTab('php')">PHP</div>
+            </div>
+
+            <div id="javascript" class="tab-content active code-block">
+                <button class="copy-btn" onclick="copyCode('javascript')">Copier</button>
+<pre><code>// Conversion simple
+const response = await fetch('https://ml05.onrender.com/api/convert', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    number: 42
+  })
+});
+
+const data = await response.json();
+console.log(data.texte); // "cappanɗe-nayi e ɗiɗi"
+
+// Avec surcharges
+const response2 = await fetch('https://ml05.onrender.com/api/convert', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    number: 17,
+    overrides: {
+      "10_modified": "sappoyy"
+    }
+  })
+});
+
+// Conversion par plage
+const response3 = await fetch('https://ml05.onrender.com/api/range', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    start: 1,
+    end: 10
+  })
+});
+
+const rangeData = await response3.json();
+console.log(rangeData.result);</code></pre>
+            </div>
+
+            <div id="python" class="tab-content code-block">
+                <button class="copy-btn" onclick="copyCode('python')">Copier</button>
+<pre><code>import requests
+import json
+
+# Conversion simple
+url = 'https://ml05.onrender.com/api/convert'
+data = {
+    'number': 42
+}
+
+response = requests.post(url, json=data)
+result = response.json()
+print(result['texte'])  # "cappanɗe-nayi e ɗiɗi"
+
+# Avec surcharges
+data_with_overrides = {
+    'number': 17,
+    'overrides': {
+        '10_modified': 'sappoyy'
+    }
+}
+
+response2 = requests.post(url, json=data_with_overrides)
+print(response2.json())
+
+# Conversion par plage
+url_range = 'https://ml05.onrender.com/api/range'
+range_data = {
+    'start': 1,
+    'end': 10
+}
+
+response3 = requests.post(url_range, json=range_data)
+print(response3.json()['result'])</code></pre>
+            </div>
+
+            <div id="curl" class="tab-content code-block">
+                <button class="copy-btn" onclick="copyCode('curl')">Copier</button>
+<pre><code># Conversion simple
+curl -X POST https://ml05.onrender.com/api/convert \
+  -H "Content-Type: application/json" \
+  -d '{"number": 42}'
+
+# Avec surcharges
+curl -X POST https://ml05.onrender.com/api/convert \
+  -H "Content-Type: application/json" \
+  -d '{"number": 17, "overrides": {"10_modified": "sappoyy"}}'
+
+# Conversion par plage
+curl -X POST https://ml05.onrender.com/api/range \
+  -H "Content-Type: application/json" \
+  -d '{"start": 1, "end": 10}'</code></pre>
+            </div>
+
+            <div id="php" class="tab-content code-block">
+                <button class="copy-btn" onclick="copyCode('php')">Copier</button>
+<pre><code>&lt;?php
+// Conversion simple
+$url = 'https://ml05.onrender.com/api/convert';
+$data = array('number' => 42);
+
+$options = array(
+    'http' => array(
+        'header'  => "Content-type: application/json\r\n",
+        'method'  => 'POST',
+        'content' => json_encode($data)
+    )
+);
+
+$context  = stream_context_create($options);
+$result = file_get_contents($url, false, $context);
+$response = json_decode($result);
+
+echo $response->texte; // "cappanɗe-nayi e ɗiɗi"
+
+// Avec surcharges
+$data_with_overrides = array(
+    'number' => 17,
+    'overrides' => array('10_modified' => 'sappoyy')
+);
+
+$options['http']['content'] = json_encode($data_with_overrides);
+$context = stream_context_create($options);
+$result = file_get_contents($url, false, $context);
+?></code></pre>
+            </div>
+        </section>
+
+        <!-- INTÉGRATION -->
+        <section id="integration">
+            <h2>🔧 Guide d'intégration</h2>
+
+            <h3>React / Next.js</h3>
+<pre><code>import { useState } from 'react';
+
+function PularConverter() {
+  const [number, setNumber] = useState('');
+  const [result, setResult] = useState(null);
+  
+  const convert = async () => {
+    const response = await fetch('https://ml05.onrender.com/api/convert', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ number: parseInt(number) })
+    });
+    
+    const data = await response.json();
+    setResult(data.texte);
+  };
+  
+  return (
+    &lt;div>
+      &lt;input 
+        type="number" 
+        value={number} 
+        onChange={(e) => setNumber(e.target.value)} 
+      />
+      &lt;button onClick={convert}>Convertir&lt;/button>
+      {result && &lt;p>Résultat : {result}&lt;/p>}
+    &lt;/div>
+  );
+}</code></pre>
+
+            <h3>Vue.js</h3>
+<pre><code>&lt;script setup>
+import { ref } from 'vue';
+
+const number = ref('');
+const result = ref(null);
+
+const convert = async () => {
+  const response = await fetch('https://ml05.onrender.com/api/convert', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ number: parseInt(number.value) })
+  });
+  
+  const data = await response.json();
+  result.value = data.texte;
+};
+&lt;/script>
+
+&lt;template>
+  &lt;div>
+    &lt;input v-model="number" type="number" />
+    &lt;button @click="convert">Convertir&lt;/button>
+    &lt;p v-if="result">Résultat : {{ result }}&lt;/p>
+  &lt;/div>
+&lt;/template></code></pre>
+
+            <h3>Node.js Backend</h3>
+<pre><code>const axios = require('axios');
+
+async function convertToPular(number) {
+  try {
+    const response = await axios.post('https://ml05.onrender.com/api/convert', {
+      number: number
+    });
+    
+    return response.data;
+  } catch (error) {
+    console.error('Erreur:', error.message);
+    throw error;
+  }
+}
+
+// Usage
+convertToPular(42)
+  .then(data => console.log(data.texte))
+  .catch(err => console.error(err));</code></pre>
+
+            <h3>Mobile (Flutter/Dart)</h3>
+<pre><code>import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+Future&lt;String> convertToPular(int number) async {
+  final response = await http.post(
+    Uri.parse('https://ml05.onrender.com/api/convert'),
+    headers: {'Content-Type': 'application/json'},
+    body: json.encode({'number': number}),
+  );
+  
+  if (response.statusCode == 200) {
+    final data = json.decode(response.body);
+    return data['texte'];
+  } else {
+    throw Exception('Erreur de conversion');
+  }
+}</code></pre>
+        </section>
+
+        <!-- LIMITES -->
+        <section id="limites">
+            <h2>⚠️ Limites et restrictions</h2>
+
+            <div class="warning-box">
+                <strong>🚨 Limites actuelles</strong>
+                <ul style="margin-top: 10px; margin-left: 20px;">
+                    <li><strong>Nombre maximum :</strong> 999 999 999 999</li>
+                    <li><strong>Plage maximum :</strong> 1000 nombres par requête</li>
+                    <li><strong>Cold start :</strong> Première requête peut prendre ~50 secondes (instance gratuite Render)</li>
+                    <li><strong>Rate limiting :</strong> Aucun actuellement (usage responsable recommandé)</li>
+                </ul>
+            </div>
+
+            <h3>Comment surmonter les limites</h3>
+
+            <h4>1. Cold Start (50 secondes)</h4>
+            <p><strong>Problème :</strong> L'API s'endort après 15 minutes d'inactivité (plan gratuit Render).</p>
+            
+            <div class="info-box">
+                <strong>Solutions :</strong>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li><strong>Ping régulier :</strong> Envoyez une requête toutes les 10 minutes pour garder l'API active</li>
+                    <li><strong>Upgrade Render :</strong> Plan payant ($7/mois) pour instance toujours active</li>
+                    <li><strong>Loading UI :</strong> Affichez un message "Réveil du serveur..." lors du premier appel</li>
+                </ul>
+            </div>
+
+<pre><code>// Ping automatique toutes les 10 minutes
+setInterval(async () => {
+  try {
+    await fetch('https://ml05.onrender.com/api/convert', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ number: 1 })
+    });
+    console.log('API ping successful');
+  } catch (error) {
+    console.error('Ping failed:', error);
+  }
+}, 600000); // 10 minutes</code></pre>
+
+            <h4>2. Plage limitée à 1000 nombres</h4>
+            <p><strong>Problème :</strong> Impossible de convertir plus de 1000 nombres en une seule requête.</p>
+            
+            <div class="info-box">
+                <strong>Solution : Batch Processing</strong>
+            </div>
+
+<pre><code>async function convertLargeRange(start, end) {
+  const results = {};
+  const batchSize = 1000;
+  
+  for (let i = start; i <= end; i += batchSize) {
+    const batchEnd = Math.min(i + batchSize - 1, end);
+    
+    const response = await fetch('https://ml05.onrender.com/api/range', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ start: i, end: batchEnd })
+    });
+    
+    const data = await response.json();
+    Object.assign(results, data.result);
+    
+    // Pause entre les requêtes pour éviter surcharge
+    await new Promise(resolve => setTimeout(resolve, 500));
+  }
+  
+  return results;
+}
+
+// Exemple : convertir 1 à 5000
+convertLargeRange(1, 5000).then(data => console.log(data));</code></pre>
+
+            <h4>3. Pas de rate limiting</h4>
+            <p><strong>Problème :</strong> Risque de surcharger l'API avec trop de requêtes.</p>
+            
+            <div class="info-box">
+                <strong>Bonne pratique :</strong> Implémentez votre propre throttling
+            </div>
+
+<pre><code>// Limiter à 10 requêtes par seconde
+class APIThrottler {
+  constructor(maxRequests = 10, interval = 1000) {
+    this.queue = [];
+    this.maxRequests = maxRequests;
+    this.interval = interval;
+    this.requestCount = 0;
+  }
+  
+  async request(url, options) {
+    if (this.requestCount >= this.maxRequests) {
+      await new Promise(resolve => setTimeout(resolve, this.interval));
+      this.requestCount = 0;
+    }
+    
+    this.requestCount++;
+    return fetch(url, options);
+  }
+}
+
+const throttler = new APIThrottler(10, 1000);
+
+// Usage
+await throttler.request('https://ml05.onrender.com/api/convert', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ number: 42 })
+});</code></pre>
+
+            <h4>4. Hébergement gratuit limité</h4>
+            
+            <div class="warning-box">
+                <strong>Alternatives pour production :</strong>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li><strong>Render Paid Plan :</strong> $7/mois, pas de cold start</li>
+                    <li><strong>Railway :</strong> $5/mois, 500h gratuites</li>
+                    <li><strong>Vercel :</strong> Serverless, scaling automatique</li>
+                    <li><strong>Self-hosted :</strong> VPS personnel (DigitalOcean, Linode)</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ERREURS -->
+        <section id="errors">
+            <h2>❌ Gestion des erreurs</h2>
+
+            <h3>Codes HTTP</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Signification</th>
+                        <th>Solution</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>200</code></td>
+                        <td>✅ Succès</td>
+                        <td>Tout va bien</td>
+                    </tr>
+                    <tr>
+                        <td><code>400</code></td>
+                        <td>❌ Requête invalide</td>
+                        <td>Vérifiez le format JSON et les paramètres</td>
+                    </tr>
+                    <tr>
+                        <td><code>404</code></td>
+                        <td>❌ Endpoint non trouvé</td>
+                        <td>Vérifiez l'URL (doit contenir <code>/api</code>)</td>
+                    </tr>
+                    <tr>
+                        <td><code>500</code></td>
+                        <td>❌ Erreur serveur</td>
+                        <td>Réessayez ou contactez le support</td>
+                    </tr>
+                    <tr>
+                        <td><code>503</code></td>
+                        <td>⏳ Service indisponible</td>
+                        <td>Cold start en cours, patientez 50s</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Messages d'erreur courants</h3>
+
+            <h4>Nombre invalide</h4>
+<pre><code>{
+  "error": "Nombre invalide (doit être un entier >= 1)"
+}</code></pre>
+            <p><strong>Cause :</strong> Le nombre est négatif, nul, ou pas un entier.</p>
+
+            <h4>Nombre trop grand</h4>
+<pre><code>{
+  "error": "Nombre trop grand (maximum: 999999999999)"
+}</code></pre>
+            <p><strong>Cause :</strong> Le nombre dépasse 999 999 999 999.</p>
+
+            <h4>Plage invalide</h4>
+<pre><code>{
+  "error": "Plage invalide (start et end doivent être des entiers, start >= 1, end >= start)"
+}</code></pre>
+            <p><strong>Cause :</strong> <code>start</code> ou <code>end</code> invalides, ou <code>start > end</code>.</p>
+
+            <h4>Plage trop grande</h4>
+<pre><code>{
+  "error": "Plage trop grande (maximum: 1000 nombres). Utilisez une plage plus petite."
+}</code></pre>
+            <p><strong>Cause :</strong> La plage contient plus de 1000 nombres.</p>
+
+            <h3>Gestion robuste des erreurs</h3>
+<pre><code>async function safeConvert(number) {
+  try {
+    const response = await fetch('https://ml05.onrender.com/api/convert', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ number })
+    });
+    
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || `HTTP ${response.status}`);
+    }
+    
+    return await response.json();
+  } catch (error) {
+    if (error.message.includes('Failed to fetch')) {
+      return { error: 'Problème de réseau. Vérifiez votre connexion.' };
+    }
+    
+    if (error.message.includes('503')) {
+      return { error: 'API en démarrage. Patientez 50 secondes...' };
+    }
+    
+    return { error: error.message };
+  }
+}
+
+// Usage avec feedback utilisateur
+safeConvert(42)
+  .then(data => {
+    if (data.error) {
+      console.error('Erreur:', data.error);
+    } else {
+      console.log('Succès:', data.texte);
+    }
+  });</code></pre>
+        </section>
+
+        <!-- SURCHARGES -->
+        <section>
+            <h2>🔀 Surcharges dialectales</h2>
+            <p>Les surcharges permettent de personnaliser certains mots de base pour adapter l'API à différentes variantes du Pular.</p>
+
+            <h3>Clés surchargeables</h3>
+            <div class="info-box">
+                <p>Consultez <code>config/nombresBase.default.json</code> dans le repository pour la liste complète des clés.</p>
+            </div>
+
+            <h4>Exemple : Variante dialectale</h4>
+<pre><code>{
+  "number": 17,
+  "overrides": {
+    "10_modified": "sappoyy",
+    "1": "gooto",
+    "2": "didi"
+  }
+}</code></pre>
+
+            <div class="warning-box">
+                <strong>⚠️ Important :</strong> Seules les clés existantes dans <code>nombresBase.default.json</code> sont acceptées. Les clés inconnues sont ignorées.
+            </div>
+        </section>
+
+        <!-- PERFORMANCE -->
+        <section>
+            <h2>⚡ Performance et optimisation</h2>
+
+            <h3>Temps de réponse typiques</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Scénario</th>
+                        <th>Temps</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Conversion simple (instance active)</td>
+                        <td>100-300ms</td>
+                    </tr>
+                    <tr>
+                        <td>Plage de 100 nombres (instance active)</td>
+                        <td>200-500ms</td>
+                    </tr>
+                    <tr>
+                        <td>Plage de 1000 nombres (instance active)</td>
+                        <td>1-2s</td>
+                    </tr>
+                    <tr>
+                        <td>Cold start (première requête)</td>
+                        <td>30-50s</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Conseils d'optimisation</h3>
+            <ul style="margin-left: 20px;">
+                <li><strong>Cache côté client :</strong> Stockez les résultats déjà convertis</li>
+                <li><strong>Debouncing :</strong> Attendez que l'utilisateur finisse de taper</li>
+                <li><strong>Progressive loading :</strong> Affichez les résultats au fur et à mesure</li>
+                <li><strong>Batch requests :</strong> Groupez plusieurs conversions</li>
+            </ul>
+
+            <h4>Exemple avec cache</h4>
+<pre><code>class PularCache {
+  constructor() {
+    this.cache = new Map();
+  }
+  
+  async convert(number) {
+    if (this.cache.has(number)) {
+      return this.cache.get(number);
+    }
+    
+    const response = await fetch('https://ml05.onrender.com/api/convert', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ number })
+    });
+    
+    const data = await response.json();
+    this.cache.set(number, data);
+    return data;
+  }
+}
+
+const cache = new PularCache();
+await cache.convert(42); // API call
+await cache.convert(42); // Cached, instant!</code></pre>
+        </section>
+
+        <!-- SUPPORT -->
+        <section>
+            <h2>💬 Support et contribution</h2>
+            
+            <h3>Besoin d'aide ?</h3>
+            <ul style="margin-left: 20px;">
+                <li>🐛 <strong>Bug :</strong> Ouvrez une issue sur <a href="https://github.com/teek-tab/ML05" class="github-link">GitHub</a></li>
+                <li>💡 <strong>Suggestion :</strong> Proposez une feature request</li>
+                <li>🤝 <strong>Contribution :</strong> Pull requests bienvenues</li>
+            </ul>
+
+            <h3>Contribuer</h3>
+<pre><code># Cloner le repo
+git clone https://github.com/teek-tab/ML05.git
+
+# Installer les dépendances
+cd ML05
+npm install
+
+# Lancer en local
+npm start
+
+# Créer une branche
+git checkout -b feature/ma-fonctionnalite
+
+# Committer et pusher
+git commit -m "Ajout de ma fonctionnalité"
+git push origin feature/ma-fonctionnalite</code></pre>
+
+            <div class="success-box">
+                <strong>🌍 Mission</strong><br>
+                Cette API est créée pour préserver et promouvoir la langue Pular. Toute contribution qui aide à cet objectif est la bienvenue !
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>ML05 API v1.0.0 • Créé avec ❤️ pour la langue Pular</p>
+        <p style="margin-top: 15px;">
+            <a href="https://github.com/teek-tab/ML05" class="github-link">🔗 GitHub Repository</a>
+        </p>
+        <p style="margin-top: 10px; font-size: 0.85rem;">
+            © 2026 ML05 Project • Licence MIT
+        </p>
+    </footer>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function copyCode(tabName) {
+            const codeBlock = document.querySelector(`#${tabName} code`);
+            const text = codeBlock.textContent;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✓ Copié !';
+                btn.style.background = 'var(--success)';
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = 'var(--accent)';
+                }, 2000);
+            });
+        }
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+</html>
