@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Générateur de nombres en Pular utilisant l'API ML05">
+    <title>Générateur de Nombres Pular</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Modal pour les messages -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <h3>Information</h3>
+            <p id="modalMessage"></p>
+            <button id="modalCloseBtn">OK</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <header class="app-header">
+            <h1 class="logo">
+                <span class="logo-main">ML</span><span class="logo-index">05</span>
+            </h1>
+            <p class="subtitle">
+                « Convertit les nombres en lettres Pular »
+            </p>
+        </header>
+
+        <!-- Onglets -->
+        <div class="tabs">
+            <button class="tab-button active" data-tab="generator">Générateur</button>
+            <button class="tab-button" data-tab="settings">
+                <i class="fas fa-cog"></i> Paramètres
+            </button>
+        </div>
+
+        <!-- Contenu des onglets -->
+        <div class="tab-content active" id="generator">
+            <div class="content">
+                <fieldset class="section generator-section">
+                    <legend>Générateur de Nombres</legend>
+                    
+                    <div class="number-input">
+                        <input type="number" id="numberToGenerate" placeholder="Entrez un nombre (1 - 999 999 999 999)" min="1" max="999999999999">
+                        <button onclick="genererNombre()">
+                            <span class="btn-text">Générer</span>
+                        </button>
+                    </div>
+                    
+                    <div id="loading" style="display: none;" class="loading">
+                        <div class="spinner"></div>
+                        <p>Conversion en cours...</p>
+                    </div>
+                    
+                    <div id="result" style="display: none;" class="result">
+                        <h3>Résultat :</h3>
+                        <div class="result-text" id="resultText"></div>
+                    </div>
+                    
+                    <h3 style="margin-top: 30px;">Générer une Plage</h3>
+                    <div class="number-input">
+                        <input type="number" id="rangeStart" placeholder="De" min="1" value="1">
+                        <input type="number" id="rangeEnd" placeholder="À" min="1" value="10">
+                        <button onclick="genererPlage()">
+                            <span class="btn-text">Générer la plage</span>
+                        </button>
+                    </div>
+                    
+                    <div id="loadingRange" style="display: none;" class="loading">
+                        <div class="spinner"></div>
+                        <p>Conversion en cours...</p>
+                    </div>
+                    
+                    <div class="actions">
+                        <button onclick="exporterJSON()">📥 Exporter JSON</button>
+                    </div>
+                    
+                    <div id="jsonOutput" style="display: none;" class="json-output"></div>
+                </fieldset>
+            </div>
+        </div>
+
+        <div class="tab-content" id="settings">
+            <div class="content-settings">
+                <fieldset class="section">
+                    <legend>Configuration API</legend>
+                    
+                    <div class="input-group">
+                        <label for="apiUrl">URL de l'API :</label>
+                        <input type="text" id="apiUrl" value="https://ml05.onrender.com/api" placeholder="https://ml05.onrender.com/api">
+                    </div>
+                    
+                    <div class="info-note">
+                        💡 Par défaut, l'API utilise le serveur en ligne. Pour tester en local, utilisez : http://localhost:3000/api
+                    </div>
+                </fieldset>
+
+                <fieldset class="section">
+                    <legend>Surcharges Dialectales (optionnel)</legend>
+                    
+                    <div class="info-note">
+                        ℹ️ Personnalisez certains mots de base pour adapter à votre variante dialectale. Laissez vide pour utiliser la configuration par défaut.
+                    </div>
+                    
+                    <div class="overrides-grid">
+                        <div class="input-group">
+                            <label for="override_1">1 :</label>
+                            <input type="text" id="override_1" placeholder="go'o (défaut)">
+                        </div>
+                        <div class="input-group">
+                            <label for="override_2">2 :</label>
+                            <input type="text" id="override_2" placeholder="ɗiɗi (défaut)">
+                        </div>
+                        <div class="input-group">
+                            <label for="override_3">3 :</label>
+                            <input type="text" id="override_3" placeholder="tati (défaut)">
+                        </div>
+                        <div class="input-group">
+                            <label for="override_10">10 :</label>
+                            <input type="text" id="override_10" placeholder="sappo (défaut)">
+                        </div>
+                        <div class="input-group">
+                            <label for="override_10_modified">10* (11-19) :</label>
+                            <input type="text" id="override_10_modified" placeholder="sappoy (défaut)">
+                        </div>
+                        <div class="input-group">
+                            <label for="override_20">20 :</label>
+                            <input type="text" id="override_20" placeholder="noogay (défaut)">
+                        </div>
+                        <div class="input-group">
+                            <label for="override_100">100 :</label>
+                            <input type="text" id="override_100" placeholder="teemedere (défaut)">
+                        </div>
+                        <div class="input-group">
+                            <label for="override_100_plural">100* (200+) :</label>
+                            <input type="text" id="override_100_plural" placeholder="teemeɗɗe (défaut)">
+                        </div>
+                    </div>
+                    
+                    <div class="actions">
+                        <button onclick="resetOverrides()">🔄 Réinitialiser</button>
+                    </div>
+                </fieldset>
+                
+                <div class="actions center">
+                    <button onclick="retourGenerateur()">💾 Sauvegarder & Retour</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
